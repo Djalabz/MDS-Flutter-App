@@ -11,7 +11,7 @@ class PrimaryButton extends StatelessWidget {
     // Retourner un Elevated Button et le customiser -> décider de son style
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
-        backgroundColor: Colors.red[900],
+        backgroundColor: Colors.red,
         padding: EdgeInsets.all(20),
       ),
       onPressed: onPressed,
