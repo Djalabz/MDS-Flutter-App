@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/components/input-text.dart';
 import 'package:flutter_application_1/components/primary-button.dart';
 
 class Login extends StatelessWidget {
-  const Login({super.key});
+  Login({super.key});
+
+  final emailController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +34,7 @@ class Login extends StatelessWidget {
       ),
       body: Container(
         child: Column(
-          children: [TextFormField(controller: TextEditingController())],
+          children: [Input(controller: emailController, label: "Votre email")],
         ),
       ),
     );
