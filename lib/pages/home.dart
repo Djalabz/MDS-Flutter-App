@@ -24,6 +24,12 @@ class HomePage extends StatelessWidget {
             },
             icon: const Icon(Icons.menu),
           ),
+          TextButton(
+            onPressed: () {
+              Navigator.pushNamed(context, "/api");
+            },
+            child: Text("API"),
+          ),
         ],
       ),
       body: Container(
