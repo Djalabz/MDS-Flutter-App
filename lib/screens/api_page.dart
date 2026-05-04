@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
-// Notre Scaffold de la page API (conteneur de page qui retourne le userScreen - facultatif)
+// La classe de la page API (conteneur passerelle de page qui retourne le _userscreen)
 class ApiPage extends StatelessWidget {
   const ApiPage({super.key});
 
@@ -12,7 +12,7 @@ class ApiPage extends StatelessWidget {
   }
 }
 
-// La classe qui vient créer le state en utilisant randomScreenState
+// La classe qui va créer le State
 class RandomUserScreen extends StatefulWidget {
   const RandomUserScreen({super.key});
 
@@ -20,17 +20,62 @@ class RandomUserScreen extends StatefulWidget {
   RandomUserScreenState createState() => RandomUserScreenState();
 }
 
-// La classe contenant la logique du state avec le call API et retournant la liste des users
+// La logique du State
 class RandomUserScreenState extends State<RandomUserScreen> {
-  // Initialisation de la liste
+  // On intialise notre tableau de _users
+  List<dynamic> _users = [];
 
-  // Fonction pour récupérer les données via l'API
+  // fonction de fetch des utilisateurs
+  Future<void> fetchUsers() async {
+    final url = Uri.parse('https://randomuser.me/api/?results=30');
 
-  // Fonction de build qui retourne la vue (scaffold puis ListView etc )
+    try {
+      final response = await http.get(url);
+
+      // Si succès 200 alors on s'occupe de data
+      if (response.statusCode == 200) {
+        // On vient decode JSON
+        final data = jsonDecode(response.body);
+
+        // Enfin on modifie le state en récupérant les résultats sinon tebleau vide
+        setState(() {
+          _users = data['results'] ?? [];
+        });
+      } else {
+        print('Erreur ${response.statusCode}');
+      }
+    } catch (e) {
+      print('Erreur: $e');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // A compléter
+      appBar: AppBar(title: const Text('Rest API Call')),
+      body: Column(
+        children: [
+          ElevatedButton(
+            onPressed: fetchUsers,
+            child: const Text('Charger les utilisateurs'),
+          ),
+          Expanded(
+            child: ListView.builder(
+              itemCount: _users.length,
+              itemBuilder: (context, index) {
+                final user = _users[index];
+                return ListTile(
+                  leading: CircleAvatar(
+                    backgroundImage: NetworkImage(user["picture"]["large"]),
+                  ),
+                  title: Text(user["name"]["first"]),
+                  subtitle: Text(user["email"]),
+                );
+              },
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
