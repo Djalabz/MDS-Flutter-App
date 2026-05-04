@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/components/input-text.dart';
-import 'package:flutter_application_1/components/primary-button.dart';
+import 'package:flutter_application_1/widgets/primary_button.dart';
 
-class Login extends StatelessWidget {
-  Login({super.key});
+// Todo :
+// Une première page un peu personnalisée en Flutter
+// Dans votre scaffold vous aurez :
+//  - Une appbar personnalisée -> Changer la couleur de fond, une autre police, et au moins 2 icones de votre choix
+//  - Pour le body -> Un Container avec dedans un bouton (qui servira d'entrer dans l'application)
+//  et un message associé de type Bienvenu sur monApp
 
-  final emailController = TextEditingController();
+class HomePage extends StatelessWidget {
+  const HomePage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -32,10 +36,8 @@ class Login extends StatelessWidget {
           ),
         ],
       ),
-      body: Container(
-        child: Column(
-          children: [Input(controller: emailController, label: "Votre email")],
-        ),
+      body: Row(
+        children: [ElevatedButton(onPressed: () {}, child: Text("ok"))],
       ),
     );
   }
